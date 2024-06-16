@@ -8,6 +8,7 @@ two optional: kwargs and name
 #url configuration,put views.index in URLconf
 #To associate URLs with views, Django uses 'URLconfs' to configure
 
+app_name = "polls"
 urlpatterns = [
     # ex: /polls/
     path("", views.index, name="index"),
