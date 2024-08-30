@@ -4,7 +4,7 @@ from django.template import loader
 from django.db.models import F
 from django.urls import reverse
 from django.views import generic
-
+from django.utils import timezone
 from .models import Question,Choice
 
 """
@@ -14,7 +14,7 @@ The concept of a view in Django is
 Each view is responsible for doing one of two things: 
    ①returning an HttpResponse object containing the content for the requested page,
    ②or raising an exception such as Http404.
-"""
+
 #isplays the last 5 poll questions in the database, sorted by publication date
 # def index(request):
 #     latest_question_list = Question.objects.order_by("-pub_date")[:5]
@@ -44,7 +44,7 @@ Each view is responsible for doing one of two things:
 # def results(request, question_id):
 #     question = get_object_or_404(Question, pk=question_id)
 #     return render(request, "polls/results.html", {"question": question})
-
+"""
 
 class IndexView(generic.ListView):
     template_name = "polls/index.html"
@@ -52,12 +52,18 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.order_by("-pub_date")[:5]
+       # return Question.objects.order_by("-pub_date")[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 
 class DetailView(generic.DetailView):
     model = Question
     template_name = "polls/detail.html"
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 
 class ResultsView(generic.DetailView):
