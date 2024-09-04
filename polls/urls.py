@@ -22,8 +22,18 @@ urlpatterns = [
     #第二和第三个模式的路径字符串中匹配的模式名称已从 <question_id> 更改为 <pk>。
     # 使用 DetailView 通用视图
     # 来替换detail() 和 results() 视图 (二者原先的视图除了模板名字一模一样。为了解决冗余，使用通用视图)，它期望从 URL 中捕获的主键值被称为 "pk"。
-    path("", views.IndexView.as_view(), name="index"),
+    path("", views.index, name="index"), #首页
+    
+
+    path('main/', views.main, name='main'),
+    path('add_question/', views.add_question, name='add_question'),
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
     path("<int:question_id>/vote/", views.vote, name="vote"),
+   
+    path('register/', views.RegisterView.as_view(), name='register'),  
+    path("ajax/check_username/", views.check_username, name="check_username"),  
+
+    path('login/', views.LoginView.as_view(), name='login'),  
+    path('logout/', views.LogoutView, name='logout'), 
 ]

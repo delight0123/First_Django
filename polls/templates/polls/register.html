@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/registerpage.css' %}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/check_username.js' %}"></script>
+</head>
+<body>
+    <form action="{% url 'polls:register' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">用户名:</label>
+            <input type="text" name="username" id="id_username" class="form-control">
+            <span id="username-feedback" class="feedback"></span>
+            <p class="error-message">{{ form.errors.username }}</p>
+        </div>
+        <div class="form-group">
+            <label for="id_password">密码:</label>
+            <input type="password" name="password" id="id_password" class="form-control">
+            <span id="password-feedback" class="feedback"></span>
+            <p class="error-message">{{ form.errors.password }}</p>
+            <progress id="strengthBar" value="0" max="100"></progress> <span>密码强度</span>
+        </div>
+        <div class="form-group">
+            <label for="id_confirm_password">确认密码:</label>
+            <input type="password" name="confirm_password" id="id_confirm_password" class="form-control">
+            <span id="confirm-password-feedback" class="feedback"></span>
+            <p class="error-message">{{ form.errors.confirm_password }}</p>
+        </div>
+        <div class="form-group">
+            <span class="error-message">{{ form.non_field_errors }}</span>
+        </div>
+        <button type="submit">注册</button>
+    </form>
+    
+    <a class="name-font" href="{% url 'polls:index' %}" >返回首页</a>
+</body>
+ 
+ 
+</html>

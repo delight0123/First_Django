@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新建投票</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/add_questions.css' %}">
+    <script src="{% static 'js/add_question.js' %}"></script>
+</head>
+<body>
+    <h1 class="new-font ">新建一个投票吧！</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ question_form.as_p }}
+        </div>
+        <div class="form-group">
+            {{ choice_form.as_p }}
+        </div>
+        <button type="submit">提交</button>
+    </form>
+    
+</body>
+</html>

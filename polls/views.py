@@ -1,12 +1,16 @@
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse, Http404,HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponse, Http404,HttpResponseRedirect,JsonResponse
 from django.template import loader
 from django.db.models import F
 from django.urls import reverse
-from django.views import generic
+from django.views import View, generic
 from django.utils import timezone
-from .models import Question,Choice
 
+from polls.form import LoginForm, RegisterForm,QuestionForm, ChoiceForm
+from .models import Question,Choice, User
+from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 """
 Create your views here.
 The concept of a view in Django is 
@@ -46,8 +50,11 @@ Each view is responsible for doing one of two things:
 #     return render(request, "polls/results.html", {"question": question})
 """
 
+def index(request):
+    return render(request, 'polls/index.html')
+
 class IndexView(generic.ListView):
-    template_name = "polls/index.html"
+    template_name = "polls/main.html"
     context_object_name = "latest_question_list"
 
     def get_queryset(self):
@@ -55,6 +62,77 @@ class IndexView(generic.ListView):
        # return Question.objects.order_by("-pub_date")[:5]
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
+#装饰器确保只有已登录的用户才能访问该视图。如果用户未登录，将自动重定向到登录页面。
+#@login_required
+def main(request):
+    all_questions = Question.objects.order_by("pub_date")
+    context = {"all_questions": all_questions}
+    return render(request, 'polls/main.html', context)
+ 
+ 
+class RegisterView(View):
+    def get(self, request):
+        form = RegisterForm()
+        return render(request, 'polls/register.html', {'form': form})
+ 
+    def post(self, request):
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '注册成功！')
+            return redirect('polls:index')
+        return render(request, 'polls/register.html', {'form': form})
+ 
+def check_username(request):
+    username = request.GET.get('username', None)
+    data = {
+        'is_taken': User.objects.filter(username=username).exists()
+    }
+    return JsonResponse(data)
+ 
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+        return render(request, 'polls/login.html', {'form': form})
+ 
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, '登录成功！')
+                return redirect('polls:main')
+            else:
+                messages.error(request, '用户名或密码错误')
+                return render(request, 'polls/login.html', {'form': form})
+        return render(request, 'polls/main.html', {'form': form})
+ 
+ 
+# 注销
+def LogoutView(request):
+    logout(request)
+    return redirect('polls:index')
+
+
+def add_question(request):
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST)
+        choice_form = ChoiceForm(request.POST)
+        if question_form.is_valid() and choice_form.is_valid():
+            question = question_form.save(commit=False)
+            question.pub_date = timezone.now()
+            question.save()
+            choice = choice_form.save(commit=False)
+            choice.question = question
+            choice.save()
+            return redirect('polls:main')
+    else:
+        question_form = QuestionForm()
+        choice_form = ChoiceForm()
+    return render(request, 'polls/add_question.html',{'question_form': question_form, 'choice_form': choice_form})
 
 class DetailView(generic.DetailView):
     model = Question

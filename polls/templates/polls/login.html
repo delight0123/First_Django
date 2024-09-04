@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/loginpage.css' %}">
+</head>
+
+<body>
+    <form action="{% url 'polls:login' %}" method="post">
+        {% csrf_token %}
+        <div class="error-message">
+            <p>{{ form.non_field_errors }}</p>
+        </div>
+        <div class="form-group">
+            <label>用户名</label>
+            <input type="text" name="username">
+            <p class="error-message">{{ form.errors.username }}</p>
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" name="password">
+            <p class="error-message">{{ form.errors.password }}</p>
+        </div>
+        <button type="submit">登录</button>
+    </form>
+
+    <a class="name-font" href="{% url 'polls:index' %}" >返回首页</a>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</body>
+</html>

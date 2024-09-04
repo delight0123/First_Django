@@ -1,0 +1,20 @@
+body {
+    margin: 0; 
+    padding: 0;
+    background: rgb(224, 230, 219);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.new-font {
+    position: fixed;
+    text-decoration: none;
+    font-family: 'Times New Roman', serif; 
+    color: #6e8c6a;
+    font-size: 3rem;
+    top: 30px;
+    left: 20px;
+
+}

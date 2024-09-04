@@ -1,0 +1,97 @@
+body {
+    margin: 0; 
+    padding: 0;
+    background: rgb(200, 214, 188);
+    position: relative;
+}
+.name-font {
+    position: fixed;
+    text-decoration: none;
+    font-family: 'Times New Roman', serif; 
+    font-size: 3rem;
+    background: linear-gradient(45deg, #98c8e1, #66c659); /* 渐变色 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    top: 30px;
+    left: 20px;
+    text-align: left;
+    transform: rotate(-3deg); /* 轻微旋转 */
+    z-index: 2; 
+}
+.choice1-font {
+    position: fixed;
+    text-decoration: none;
+    font-family: 'Times New Roman', serif; 
+    font-size: 2.5rem;
+    color: #6e8c6a; 
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+    top:200px;
+    left:550px;
+    text-align: left; 
+    z-index: 2; 
+}
+
+.choice2-font {
+    position: fixed;
+    text-decoration: none;
+    font-family: 'Times New Roman', serif; 
+    font-size: 2.5rem;
+    color: #6e8c6a; 
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+    top:350px;
+    left:550px;
+    text-align: left; 
+    z-index: 2; 
+}
+
+.background-container {
+    position: fixed;
+    top: 1px;
+    right: 1px;
+    width: 100%;
+    height: 100%;
+    background: url("polls/images/loginpc.jpg") no-repeat top right;
+    background-size: 500px 500px;
+    z-index: 1; 
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    z-index: -1;
+}
+
+.quote-container {
+    position: fixed;
+    bottom: 5px;
+    right: 8px;
+    text-align: left;
+    background-color: rgb(200, 214, 188); /* 设置背景颜色为白色 */
+    padding: 20px; /* 内边距 */
+    border-radius: 50px; /* 圆角 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    width: 460px; /* 设置宽度 */
+    height: 120px; /* 设置高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.artistic-quote {
+    font-family: 'STXingkai', '华文行楷', serif;
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #6e8c6a;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+    line-height: 1.5;
+    padding: 5px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}

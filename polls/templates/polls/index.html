@@ -1,9 +1,21 @@
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <title>首页</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'indexpage.css' %}">
+</head>
+<body>
+    
+    <div class="quote-container">
+        <p class="artistic-quote">&nbsp;每一次选择<br>&nbsp;&nbsp;&nbsp;&nbsp;都是心灵的邂逅&nbsp;</p>
+    </div>
+    <div class="center-content">
+            <a class="name-font" href="{% url 'polls:index' %}" >欢迎来到票选时光</a>
+            <a class="choice1-font" href="{% url 'polls:login' %}">登录</a>
+            <a class="choice2-font" href="{% url 'polls:register' %}">注册</a>     
+    </div>
+    <div class="background-container"></div>
+   
+</body>
+</html>
